@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const rules = require("./webpack.config.rules");
 
 module.exports = {
   entry: {
@@ -11,19 +12,12 @@ module.exports = {
     index: "linter.html"
   },
   output: {
-    filename: "[name].[hash].js",
-    path: path.resolve("dist")
+    filename: "linter.js",
+    path: path.resolve("build")
   },
   devtool: "source-map",
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { cacheDirectory: true }
-      }
-    ]
+    rules: [...rules]
   },
   optimization: {
     minimizer: [
@@ -44,6 +38,6 @@ module.exports = {
       title: "Linter",
       filename: "linter.html"
     }),
-    new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["dist"] })
+    new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["build"] })
   ]
 };
