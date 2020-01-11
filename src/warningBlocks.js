@@ -22,8 +22,8 @@ const warningBlocks = ast => {
     parent: true
   });
 
-  //console.log("ast", ast);
-  //console.log("warningBlocks", warningBlocks);
+  console.log("ast", ast);
+  console.log("warningBlocks", warningBlocks);
 
   const warningObjectBlocks = warningBlocks.map(it => ({
     warning: it,
@@ -32,49 +32,11 @@ const warningBlocks = ast => {
     )[0]
   }));
 
-  //console.log("warningObjectBlocks", warningObjectBlocks);
-
-  const contentBlocks = warningObjectBlocks
-    .map(blocks => ({
-      warning: blocks.warning,
-      content: blocks.content.value.children.filter(
-        block => block.children[0].key.value === "block"
-      )
-    }))
-    .filter(block => block.content.length);
-
-  //console.log("contentBlocks", contentBlocks);
-
-  const textBlocks = contentBlocks
-    .map(blocks => ({
-      warning: blocks.warning,
-      content: blocks.content.filter(
-        block =>
-          block.children[0].key.value === "block" &&
-          block.children[0].value.value === "text"
-      )
-    }))
-    .filter(blocks => blocks.content.length);
-
-  //console.log("textBlocks", textBlocks);
-
-  const refAndButtonBlocks = contentBlocks
-    .map(blocks =>
-      blocks.content.filter(
-        (block, i) =>
-          i === 0 ||
-          (i > 0 &&
-            block.children[0].key.value === "block" &&
-            block.children[0].value.value === "button")
-      )
-    )
-    .filter(block => block.length);
-
-  //console.log("refAndButtonBlocks", refAndButtonBlocks);
+  console.log("warningObjectBlocks", warningObjectBlocks);
 
   return [
-    ...textSizesShouldBeEqual(textBlocks),
-    ...invalidButtonSize(refAndButtonBlocks),
+    ...textSizesShouldBeEqual(warningObjectBlocks),
+    ...invalidButtonSize(warningObjectBlocks),
     // Правильно понял правило ?
     ...invalidButtonPosition(warningBlocks),
     // Правильно понял правило ?
@@ -82,8 +44,21 @@ const warningBlocks = ast => {
   ];
 };
 
-const textSizesShouldBeEqual = textBlocks => {
+const textSizesShouldBeEqual = warningObjectBlocks => {
   let errors = [];
+
+  const textBlocks = warningObjectBlocks
+    .map(blocks => ({
+      warning: blocks.warning,
+      content: findProperty(blocks.warning, {
+        key: "block",
+        values: ["text"],
+        parent: true
+      })
+    }))
+    .filter(blocks => blocks.content.length);
+
+  console.log("textBlocks", textBlocks);
 
   for (let blocks of textBlocks) {
     const textBlock = findProperty(blocks.content[0], {
@@ -126,32 +101,59 @@ const textSizesShouldBeEqual = textBlocks => {
   return errors;
 };
 
-const invalidButtonSize = refAndButtonBlocks => {
+const invalidButtonSize = warningObjectBlocks => {
   let errors = [];
 
+  const refAndButtonBlocks = warningObjectBlocks
+    .map(blocks => ({
+      warning: blocks.warning,
+      content: findProperty(blocks.warning, {
+        key: "block",
+        values: ["text", "button"],
+        parent: true
+      })
+    }))
+    .map(blocks =>
+      blocks.content.filter(
+        (block, i) =>
+          i === 0 ||
+          (i > 0 &&
+            block.children[0].key.value === "block" &&
+            block.children[0].value.value === "button")
+      )
+    )
+    .filter(block => block.length);
+
+  console.log("refAndButtonBlocks", refAndButtonBlocks);
+
   refAndButtonBlocks.forEach(blocks => {
-    const {
-      value: { value: ref }
-    } = findProperty(blocks[0], { key: "size", findFirst: true })[0];
+    const block = findProperty(blocks[0], { key: "size", findFirst: true });
 
-    blocks.forEach((block, i) => {
-      if (i > 0) {
-        const {
-          value: { value: prop }
-        } = findProperty(block, { key: "size", findFirst: true })[0];
+    if (block.length) {
+      const {
+        value: { value: ref }
+      } = block[0];
 
-        if (sizes[ref] >= sizes[prop]) {
-          errors.push({
-            ...warningErrors.invalidButtonSize,
-            ...locationFormat(block)
-          });
+      blocks.forEach((block, i) => {
+        if (i > 0) {
+          const {
+            value: { value: prop }
+          } = findProperty(block, { key: "size", findFirst: true })[0];
+
+          if (sizes[ref] >= sizes[prop]) {
+            errors.push({
+              ...warningErrors.invalidButtonSize,
+              ...locationFormat(block)
+            });
+          }
         }
-      }
-    });
+      });
+    }
   });
 
   return errors;
 };
+
 const invalidButtonPosition = warningBlocks => {
   let errors = [];
 
@@ -167,7 +169,7 @@ const invalidButtonPosition = warningBlocks => {
     )
     .filter(block => block.length);
 
-  //console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
+  console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
 
   placeholderAndButtonBlocks.forEach(blocks => {
     blocks.forEach((block, j) => {

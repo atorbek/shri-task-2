@@ -1,7 +1,7 @@
 const locationFormat = ({ loc: { start, end } }) => ({
   location: {
     start: { column: start.column, line: start.line },
-    end: { end: end.column, line: end.line }
+    end: { column: end.column, line: end.line }
   }
 });
 
