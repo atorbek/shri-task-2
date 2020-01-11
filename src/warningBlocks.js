@@ -1,6 +1,6 @@
 import { findProperty } from "./findUtils";
 import { warnings as warningErrors } from "./errorMessages";
-import { locationFormat } from "./utils";
+import { compareLocation, locationFormat } from "./utils";
 
 const sizes = {
   xxxs: 0,
@@ -157,6 +157,19 @@ const invalidButtonSize = warningObjectBlocks => {
 const invalidButtonPosition = warningBlocks => {
   let errors = [];
 
+  // const placeholderAndButtonBlocks = warningBlocks
+  //     .map(blocks =>
+  //         findProperty(blocks, {
+  //           key: "block",
+  //           values: ["placeholder", "button"],
+  //           parent: true
+  //         }).sort(
+  //             // (a, b) => a.children[0].loc.start.line - b.children[0].loc.start.line
+  //             (a, b) => compareLocation(a, b) // сортировать не обязательно
+  //         )
+  //     )
+  //     .filter(block => block.length);
+
   const placeholderAndButtonBlocks = warningBlocks
     .map(blocks =>
       findProperty(blocks, {
@@ -164,7 +177,7 @@ const invalidButtonPosition = warningBlocks => {
         values: ["placeholder", "button"],
         parent: true
       }).sort(
-        (a, b) => a.children[0].loc.start.line - b.children[0].loc.start.line
+        (a, b) => compareLocation(a, b) // сортировать не обязательно
       )
     )
     .filter(block => block.length);
@@ -174,7 +187,7 @@ const invalidButtonPosition = warningBlocks => {
   placeholderAndButtonBlocks.forEach(blocks => {
     blocks.forEach((block, j) => {
       if (block.children[0].value.value === "button") {
-        for (let l = j; l < blocks.length - 1; l++) {
+        for (let l = j; l < blocks.length; l++) {
           if (blocks[l].children[0].value.value === "placeholder") {
             errors.push({
               ...warningErrors.invalidButtonPosition,
@@ -208,11 +221,19 @@ const invalidPlaceholderSize = warningBlocks => {
         findFirst: true
       });
 
-      if ([3, 4, 5].includes(sizes[size])) {
-        errors.push({
-          ...warningErrors.invalidPlaceholderSize,
-          ...locationFormat(placeholder)
-        });
+      console.log(size);
+
+      if (size.length) {
+        const {
+          value: { value }
+        } = size[0];
+
+        if (![3, 4, 5].includes(sizes[value])) {
+          errors.push({
+            ...warningErrors.invalidPlaceholderSize,
+            ...locationFormat(placeholder)
+          });
+        }
       }
     });
   });
