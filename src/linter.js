@@ -2683,10 +2683,10 @@ export const linter = json =>
     })
   );
 
-window.lint = linter;
+globalThis.lint = linter;
 
-const m1 = new Date().getMilliseconds();
-
-console.log(linter(json));
-
-console.log("linter", new Date().getMilliseconds() - m1, "ms");
+// const m1 = new Date().getMilliseconds();
+//
+// console.log(linter(json));
+//
+// console.log("linter", new Date().getMilliseconds() - m1, "ms");

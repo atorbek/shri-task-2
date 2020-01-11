@@ -33,8 +33,8 @@ const headerBlocks = ast => {
     return hMods;
   })(textBlocks);
 
-  console.log("hMods", headerBlocks);
-  console.log("textBlocks-headers", textBlocks);
+  //console.log("hMods", headerBlocks);
+  //console.log("textBlocks-headers", textBlocks);
 
   return [
     ...severalH1(headerBlocks),

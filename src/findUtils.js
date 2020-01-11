@@ -1,5 +1,5 @@
 const walk = (astJson, cb, { findFirst } = { findFirst: false }) => {
-  const m1 = new Date().getMilliseconds();
+  //const m1 = new Date().getMilliseconds();
   const stack = [];
 
   // let ast = { ...astJson };
@@ -51,7 +51,7 @@ const walk = (astJson, cb, { findFirst } = { findFirst: false }) => {
       stack.pop();
     }
   }
-  console.log(new Date().getMilliseconds() - m1);
+  //console.log(new Date().getMilliseconds() - m1);
 };
 
 const findProperty = (

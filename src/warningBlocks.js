@@ -22,8 +22,8 @@ const warningBlocks = ast => {
     parent: true
   });
 
-  console.log("ast", ast);
-  console.log("warningBlocks", warningBlocks);
+  //console.log("ast", ast);
+  //console.log("warningBlocks", warningBlocks);
 
   const warningObjectBlocks = warningBlocks.map(it => ({
     warning: it,
@@ -32,7 +32,7 @@ const warningBlocks = ast => {
     )[0]
   }));
 
-  console.log("warningObjectBlocks", warningObjectBlocks);
+  //console.log("warningObjectBlocks", warningObjectBlocks);
 
   const contentBlocks = warningObjectBlocks
     .map(blocks => ({
@@ -43,7 +43,7 @@ const warningBlocks = ast => {
     }))
     .filter(block => block.content.length);
 
-  console.log("contentBlocks", contentBlocks);
+  //console.log("contentBlocks", contentBlocks);
 
   const textBlocks = contentBlocks
     .map(blocks => ({
@@ -56,7 +56,7 @@ const warningBlocks = ast => {
     }))
     .filter(blocks => blocks.content.length);
 
-  console.log("textBlocks", textBlocks);
+  //console.log("textBlocks", textBlocks);
 
   const refAndButtonBlocks = contentBlocks
     .map(blocks =>
@@ -70,7 +70,7 @@ const warningBlocks = ast => {
     )
     .filter(block => block.length);
 
-  console.log("refAndButtonBlocks", refAndButtonBlocks);
+  //console.log("refAndButtonBlocks", refAndButtonBlocks);
 
   return [
     ...textSizesShouldBeEqual(textBlocks),
@@ -167,7 +167,7 @@ const invalidButtonPosition = warningBlocks => {
     )
     .filter(block => block.length);
 
-  console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
+  //console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
 
   placeholderAndButtonBlocks.forEach(blocks => {
     blocks.forEach((block, j) => {
