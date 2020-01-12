@@ -140,7 +140,8 @@ const invalidButtonSize = warningObjectBlocks => {
             value: { value: prop }
           } = findProperty(block, { key: "size", findFirst: true })[0];
 
-          if (sizes[ref] >= sizes[prop]) {
+          const diff = sizes[prop] - sizes[ref];
+          if (diff <= 0 || diff > 1) {
             errors.push({
               ...warningErrors.invalidButtonSize,
               ...locationFormat(block)

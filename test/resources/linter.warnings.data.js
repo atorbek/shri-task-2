@@ -183,6 +183,28 @@ export const warningBlocks = {
         { "block": "button", "mods": { "size": "l" } }
     ]
 }`,
+
+  sizeIsTwoStepLargerRef: `{
+    "block": "warning",
+    "content": [
+        { "block": "text", "mods": { "size": "l" } },
+        { "block": "button", "mods": { "size": "xxl" } }
+    ]
+}`,
+
+  sizeIsTwoStepLargerRefAtDifferentLvl: `{
+    "block": "warning",
+    "content": [
+        { "block": "text", "mods": { "size": "l" } },
+        {
+            "elem": "content",
+            "content": [
+                { "block": "button", "mods": { "size": "xxl" } }
+            ]
+        }
+    ]
+}`,
+
   sizeIsOneStepLargerRefAtDifferentLvl: `{
     "block": "warning",
     "content": [

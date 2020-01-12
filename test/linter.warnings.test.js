@@ -76,6 +76,8 @@ describe("Правила линтинга блока warning", () => {
     const {
       sizeIsOneStepLargerRef,
       sizeIsEqualToRef,
+      sizeIsTwoStepLargerRef,
+      sizeIsTwoStepLargerRefAtDifferentLvl,
       onlyRefButtonSizeOnDeeperLvl,
       sizeIsOneStepLargerRefAtDifferentLvl,
       sizeIsEqualToRefAtDifferentLvl,
@@ -95,6 +97,36 @@ describe("Правила линтинга блока warning", () => {
           location: {
             start: { column: 9, line: 5 },
             end: { column: 55, line: 5 }
+          }
+        }
+      ]);
+    });
+
+    // Правильно понял условие?
+    it("Размер кнопки на 2 шага больше размера эталонного блока", () => {
+      assert.deepEqual(linter(sizeIsTwoStepLargerRef), [
+        {
+          code: "WARNING.INVALID_BUTTON_SIZE",
+          error:
+            "Размер кнопки блока warning должен быть на 1 шаг больше эталонного",
+          location: {
+            start: { column: 9, line: 5 },
+            end: { column: 57, line: 5 }
+          }
+        }
+      ]);
+    });
+
+    // Правильно понял условие?
+    it("Размер кнопки на 2 шага больше размера эталонного блока на разных уровнях вложенности", () => {
+      assert.deepEqual(linter(sizeIsTwoStepLargerRefAtDifferentLvl), [
+        {
+          code: "WARNING.INVALID_BUTTON_SIZE",
+          error:
+            "Размер кнопки блока warning должен быть на 1 шаг больше эталонного",
+          location: {
+            start: { column: 17, line: 8 },
+            end: { column: 65, line: 8 }
           }
         }
       ]);
