@@ -33,8 +33,8 @@ const headerBlocks = ast => {
     return hMods;
   })(textBlocks);
 
-  console.log("hMods", headerBlocks);
-  console.log("textBlocks-headers", textBlocks);
+  // console.log("hMods", headerBlocks);
+  // console.log("textBlocks-headers", textBlocks);
 
   return [
     ...severalH1(headerBlocks),
@@ -62,13 +62,13 @@ const invalidH2Position = ({ h1, h2 }) => {
   const errors = [];
 
   if (h1.length) {
-    h2.reduce((h1, h2) => {
-      compareLocation(h2, h1) &&
+    h2.forEach(h2 => {
+      compareLocation(h2, h1[0]) &&
         errors.push({
           ...headerErrors.invalidH2Position,
           ...locationFormat(h2)
         });
-    }, h1[0]);
+    });
   }
 
   return errors;

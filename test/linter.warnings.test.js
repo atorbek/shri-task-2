@@ -1,5 +1,5 @@
 import { linter } from "../src/linter";
-import { warningBlocks } from "./data";
+import { warningBlocks } from "./resources/linter.warnings.data";
 
 chai.config.truncateThreshold = 0;
 chai.config.includeStack = true;

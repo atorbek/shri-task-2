@@ -22,8 +22,8 @@ const warningBlocks = ast => {
     parent: true
   });
 
-  console.log("ast", ast);
-  console.log("warningBlocks", warningBlocks);
+  // console.log("ast", ast);
+  // console.log("warningBlocks", warningBlocks);
 
   const warningObjectBlocks = warningBlocks.map(it => ({
     warning: it,
@@ -32,7 +32,7 @@ const warningBlocks = ast => {
     )[0]
   }));
 
-  console.log("warningObjectBlocks", warningObjectBlocks);
+  // console.log("warningObjectBlocks", warningObjectBlocks);
 
   return [
     ...textSizesShouldBeEqual(warningObjectBlocks),
@@ -58,7 +58,7 @@ const textSizesShouldBeEqual = warningObjectBlocks => {
     }))
     .filter(blocks => blocks.content.length);
 
-  console.log("textBlocks", textBlocks);
+  // console.log("textBlocks", textBlocks);
 
   for (let blocks of textBlocks) {
     const textBlock = findProperty(blocks.content[0], {
@@ -124,7 +124,7 @@ const invalidButtonSize = warningObjectBlocks => {
     )
     .filter(block => block.length);
 
-  console.log("refAndButtonBlocks", refAndButtonBlocks);
+  // console.log("refAndButtonBlocks", refAndButtonBlocks);
 
   refAndButtonBlocks.forEach(blocks => {
     const block = findProperty(blocks[0], { key: "size", findFirst: true });
@@ -182,7 +182,7 @@ const invalidButtonPosition = warningBlocks => {
     )
     .filter(block => block.length);
 
-  console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
+  // console.log("placeholderAndButtonBlocks", placeholderAndButtonBlocks);
 
   placeholderAndButtonBlocks.forEach(blocks => {
     blocks.forEach((block, j) => {
@@ -220,8 +220,6 @@ const invalidPlaceholderSize = warningBlocks => {
         key: "size",
         findFirst: true
       });
-
-      console.log(size);
 
       if (size.length) {
         const {

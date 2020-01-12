@@ -6,9 +6,11 @@ const locationFormat = ({ loc: { start, end } }) => ({
 });
 
 const compareLocation = (block1, block2) => {
-  return block1.loc.start.line !== block1.loc.start.line
-    ? block1.loc.start.line < block2.loc.start.line
-    : block1.loc.start.column < block2.loc.start.column;
+  if (block1.loc.start.line !== block2.loc.start.line) {
+    return block1.loc.start.line < block2.loc.start.line;
+  } else {
+    return block1.loc.start.column < block2.loc.start.column;
+  }
 };
 
 export { locationFormat, compareLocation };

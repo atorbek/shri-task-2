@@ -15,7 +15,7 @@ const tooMuchMarketingBlocks = ast => {
     parent: true
   });
 
-  //console.log("gridBlocks", gridBlocks);
+  // console.log("gridBlocks", gridBlocks);
 
   const gridObjectBlocks = gridBlocks
     .map(gridBlock => {
@@ -39,7 +39,7 @@ const tooMuchMarketingBlocks = ast => {
     })
     .filter(it => Object.keys(it).length !== 0 && it.constructor === Object);
 
-  //console.log("gridObjectBlocks", gridObjectBlocks);
+  // console.log("gridObjectBlocks", gridObjectBlocks);
 
   const gridMarketingBlocks = gridObjectBlocks.map(it => ({
     ...it,
@@ -53,7 +53,7 @@ const tooMuchMarketingBlocks = ast => {
     )
   }));
 
-  //console.log("gridMarketingBlocks", gridMarketingBlocks);
+  // console.log("gridMarketingBlocks", gridMarketingBlocks);
 
   gridMarketingBlocks.forEach(it => {
     const sum = it.content.reduce(
@@ -66,7 +66,7 @@ const tooMuchMarketingBlocks = ast => {
       0
     );
 
-    if (it.mColumns / 2 < sum) {
+    if (it.mColumns / 2 <= sum) {
       errors.push({
         ...marketingErrors.tooMuchMarketingBlocks,
         ...locationFormat(it.block)
