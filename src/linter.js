@@ -1,7 +1,7 @@
 import jsonToAst from "json-to-ast";
-import { warningBlocks } from "./warningBlocks";
-import { headerBlocks } from "./headerBlocks";
-import { marketingBlocks } from "./marketingBlocks";
+import { warningBlocks } from "./blocks/warningBlocks";
+import { headerBlocks } from "./blocks/headerBlocks";
+import { marketingBlocks } from "./blocks/marketingBlocks";
 
 export const linter = json =>
   (ast => [
@@ -15,9 +15,3 @@ export const linter = json =>
   );
 
 globalThis.lint = linter;
-
-// const m1 = new Date().getMilliseconds();
-//
-// console.log(linter(json));
-//
-// console.log("linter", new Date().getMilliseconds() - m1, "ms");

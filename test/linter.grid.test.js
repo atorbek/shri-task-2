@@ -1,9 +1,6 @@
 import { linter } from "../src/linter";
 import { marketingBlocks } from "./resources/linter.grid.data";
 
-chai.config.truncateThreshold = 0;
-chai.config.includeStack = true;
-
 describe("Правила линтинга пропорции функциональных и рекламных блоков", () => {
   describe("GRID.TOO_MUCH_MARKETING_BLOCKS", () => {
     const { lessThanOrEqualToHalf, moreThanHalf } = marketingBlocks;

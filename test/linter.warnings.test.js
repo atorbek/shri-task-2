@@ -1,9 +1,6 @@
 import { linter } from "../src/linter";
 import { warningBlocks } from "./resources/linter.warnings.data";
 
-chai.config.truncateThreshold = 0;
-chai.config.includeStack = true;
-
 describe("Правила линтинга блока warning", () => {
   describe("WARNING.TEXT_SIZES_SHOULD_BE_EQUAL", () => {
     const {
@@ -102,7 +99,6 @@ describe("Правила линтинга блока warning", () => {
       ]);
     });
 
-    // Правильно понял условие?
     it("Размер кнопки на 2 шага больше размера эталонного блока", () => {
       assert.deepEqual(linter(sizeIsTwoStepLargerRef), [
         {
@@ -117,7 +113,6 @@ describe("Правила линтинга блока warning", () => {
       ]);
     });
 
-    // Правильно понял условие?
     it("Размер кнопки на 2 шага больше размера эталонного блока на разных уровнях вложенности", () => {
       assert.deepEqual(linter(sizeIsTwoStepLargerRefAtDifferentLvl), [
         {

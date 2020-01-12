@@ -1,6 +1,6 @@
-import { findProperty } from "./findUtils";
-import { locationFormat } from "./utils";
-import { marketings as marketingErrors } from "./errorMessages";
+import { findProperty } from "../utils/findUtils";
+import { locationFormat } from "../utils/utils";
+import { marketings as marketingErrors } from "../constants/errorMessages";
 
 const marketingBlocks = ast => {
   return [...tooMuchMarketingBlocks(ast)];
@@ -8,16 +8,13 @@ const marketingBlocks = ast => {
 
 const tooMuchMarketingBlocks = ast => {
   const errors = [];
-
   const gridBlocks = findProperty(ast, {
     key: "block",
     values: ["grid"],
     parent: true
   });
 
-  // console.log("gridBlocks", gridBlocks);
-
-  const gridObjectBlocks = gridBlocks
+  const gridObjBlocks = gridBlocks
     .map(gridBlock => {
       const mColumns = findProperty(gridBlock, {
         key: "m-columns",
@@ -39,9 +36,7 @@ const tooMuchMarketingBlocks = ast => {
     })
     .filter(it => Object.keys(it).length !== 0 && it.constructor === Object);
 
-  // console.log("gridObjectBlocks", gridObjectBlocks);
-
-  const gridMarketingBlocks = gridObjectBlocks.map(it => ({
+  const gridMarketingBlocks = gridObjBlocks.map(it => ({
     ...it,
     content: it.content.filter(
       it =>
@@ -52,8 +47,6 @@ const tooMuchMarketingBlocks = ast => {
         }).length
     )
   }));
-
-  // console.log("gridMarketingBlocks", gridMarketingBlocks);
 
   gridMarketingBlocks.forEach(it => {
     const sum = it.content.reduce(

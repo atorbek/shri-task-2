@@ -1,6 +1,6 @@
-import { findProperty } from "./findUtils";
-import { locationFormat, compareLocation } from "./utils";
-import { headers as headerErrors } from "./errorMessages";
+import { findProperty } from "../utils/findUtils";
+import { locationFormat, compareLocation } from "../utils/utils";
+import { headers as headerErrors } from "../constants/errorMessages";
 
 const headerBlocks = ast => {
   const textBlocks = findProperty(ast, {
@@ -33,9 +33,6 @@ const headerBlocks = ast => {
     return hMods;
   })(textBlocks);
 
-  // console.log("hMods", headerBlocks);
-  // console.log("textBlocks-headers", textBlocks);
-
   return [
     ...severalH1(headerBlocks),
     ...invalidH2Position(headerBlocks),
@@ -45,7 +42,6 @@ const headerBlocks = ast => {
 
 const severalH1 = ({ h1 }) => {
   const errors = [];
-
   if (h1.length && h1.length > 1) {
     h1.reduce((acc, h1) =>
       errors.push({
@@ -60,7 +56,6 @@ const severalH1 = ({ h1 }) => {
 
 const invalidH2Position = ({ h1, h2 }) => {
   const errors = [];
-
   if (h1.length) {
     h2.forEach(h2 => {
       compareLocation(h2, h1[0]) &&
@@ -75,7 +70,6 @@ const invalidH2Position = ({ h1, h2 }) => {
 };
 const invalidH3Position = ({ h2, h3 }) => {
   const errors = [];
-
   if (h2.length) {
     h2.forEach(h2 => {
       h3.forEach(h3 => {

@@ -1,9 +1,6 @@
 import { linter } from "../src/linter";
 import { headerBlocks } from "./resources/linter.headers.data";
 
-chai.config.truncateThreshold = 0;
-chai.config.includeStack = true;
-
 describe("Правила линтинга заголовков на странице", () => {
   describe("TEXT.SEVERAL_H1", () => {
     const {

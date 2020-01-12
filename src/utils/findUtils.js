@@ -1,17 +1,15 @@
 const walk = (astJson, cb, { findFirst } = { findFirst: false }) => {
-  //const m1 = new Date().getMilliseconds();
-  const stack = [];
-
-  // let ast = { ...astJson };
   let ast = astJson;
-  const visited = new Set();
-  let parent = ast;
+
+  const stack = [];
   stack.push(ast);
+
+  const visited = new Set();
   visited.add(ast);
 
+  let parent = ast;
+
   while (stack.length !== 0) {
-    // console.log("Our stack is");
-    // console.log(stack.map(it => it));
     ast = stack[stack.length - 1];
     let unvisited = true;
 
@@ -51,7 +49,6 @@ const walk = (astJson, cb, { findFirst } = { findFirst: false }) => {
       stack.pop();
     }
   }
-  //console.log(new Date().getMilliseconds() - m1);
 };
 
 const findProperty = (
